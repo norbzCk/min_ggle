@@ -27,6 +27,11 @@ CREATE TABLE search_items (
   page_url TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE INDEX idx_search_title_desc
+ON search_items USING GIN (
+    to_tsvector('english', title || ''|| description)
+);
 ```
 
 3. Update database credentials in `db.php` if needed.
