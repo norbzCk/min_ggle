@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: srch-eng-proj
+    runtime: docker
+    plan: free
+    autoDeploy: true
