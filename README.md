@@ -110,12 +110,15 @@ CREATE TABLE search_items (
 
 ### 4. Set Render environment variables
 Set these in Render service settings:
+- `DATABASE_URL` = Neon connection string (recommended)
 - `DB_HOST` = Neon host
 - `DB_PORT` = `5432`
 - `DB_NAME` = Neon database name
 - `DB_USER` = Neon user
 - `DB_PASS` = Neon password
 - `DB_SSLMODE` = `require`
+
+If `DATABASE_URL` is set, it is used as the source of truth for DB connection values.
 
 ### 5. Seed sample data once
 After deploy succeeds, open:

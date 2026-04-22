@@ -4,3 +4,7 @@ services:
     runtime: docker
     plan: free
     autoDeploy: true
+    healthCheckPath: /healthz.php
+    envVars:
+      - key: DATABASE_URL
+        sync: false

@@ -54,36 +54,66 @@ function normalizeUrl($url) {
     return $url;
 }
 
+//This function answers a question “What part of the text should I show in search results?”
+
 function buildSnippet($text, $keywords, $maxLen = 200) {
+
+    // If $text is null, turn it into an empty string
     $text = $text ?? '';
+
+    // If there is no text at all, return nothing
     if ($text === '') {
         return '';
     }
 
+    // If there are NO keywords to search for,
+    // just cut the text from the beginning to $maxLen characters
     if (!$keywords) {
         return mb_strimwidth($text, 0, $maxLen, '...');
     }
 
+    // This will store the position of the FIRST keyword found in the text
     $firstPos = null;
+
+    // Loop through each keyword
     foreach ($keywords as $word) {
+
+        // Skip empty keywords (safety check)
         if ($word === '') {
             continue;
         }
+
+        // Find the position of the keyword in the text (case-insensitive)
         $pos = mb_stripos($text, $word);
+
+        // If the keyword exists in the text
+        // AND this position is earlier than any previously found keyword
         if ($pos !== false && ($firstPos === null || $pos < $firstPos)) {
             $firstPos = $pos;
         }
     }
 
+    // If NONE of the keywords were found in the text,
+    // fall back to a normal beginning snippet
     if ($firstPos === null) {
         return mb_strimwidth($text, 0, $maxLen, '...');
     }
 
+    // Calculate where the snippet should start
+    // We move backwards a bit so the keyword is not at the edge, but we also ensure we don't start before the beginning of the text
     $windowStart = max(0, $firstPos - (int)floor($maxLen / 3));
+
+    // Extract a piece of text starting from $windowStart
+    // with a maximum length of $maxLen characters
     $snippet = mb_substr($text, $windowStart, $maxLen);
+
+    // If we did not start from the beginning, add "..." in front
     $prefix = $windowStart > 0 ? '...' : '';
+
+    // If there is still more text after the snippet, add "..." at the end
     $suffix = (mb_strlen($text) > ($windowStart + $maxLen)) ? '...' : '';
 
+    // Return the final snippet with prefix and suffix
     return $prefix . $snippet . $suffix;
 }
 
@@ -101,7 +131,7 @@ $results = array_map(function($row) use ($keywords) {
     return $row;
 }, $results);
 
-// Pagination logic
+// Pagination logic 
 $totalPages = ceil($totalResults / $limit);
 $currentPage = max(1, min($page, $totalPages));
 $pagesPerWindow = 10;
@@ -114,11 +144,7 @@ $windowEnd = min($windowStart + $pagesPerWindow - 1, $totalPages);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8
-Worked for 32s
-Done. I fixed highlighting to be Google‑style, made it safe (HTML‑escaped), and ensured the result links open cleanly. I also corrected a typo that was breaking title highlighting.
-
-" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Search results</title>
     <link rel="stylesheet" href="style.css" type="text/css"/>
@@ -147,8 +173,8 @@ Done. I fixed highlighting to be Google‑style, made it safe (HTML‑escaped), 
 <main>
     <div class="stats">
         <?php if ($searchTerm): ?>
-            About <?= count($results) ?> results for "<strong><?= htmlspecialchars($searchTerm) ?></strong>" 
-            (<?= number_format($totalResults) ?> total, <?= round($timeTaken, 2) ?> seconds)
+            About <?= number_format($totalResults) ?> results for "<strong><?= htmlspecialchars($searchTerm) ?></strong>" 
+            (<?= round($timeTaken, 2) ?> seconds)
         <?php else: ?>
             Enter a search term above
         <?php endif; ?>
