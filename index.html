@@ -10,12 +10,8 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <meta name="description" content="Search anything with our simple and fast search engine." />
     <meta name="keywords" content="search, engine, simple, fast, web search" />
-    <meta name="author" content="Your Name" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
 </head>
 
 <body>
@@ -25,18 +21,20 @@
 
         <form class="home-search-form" action="results.php" method="get">
             <div class="search-input-wrap">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
                 <input type="search" name="q" class="search-input" placeholder="Search anything..." autocomplete="off" autofocus required>
             </div>
             <div class="buttons">
-               <button class="btn btn-primary">Search</button>
-               <button class="btn">I'm Feeling Lucky</button>
+               <button type="submit" class="btn btn-primary">Search Now</button>
+               <button type="button" class="btn" onclick="window.location.href='results.php?q=random'">I'm Feeling Lucky</button>
             </div>
         </form>
     </div>
 
     <footer>
-        © 2026 — ITU/CSU07315
+        <p>&copy; 2026 — ITU/CSU07315. All rights reserved.</p>
     </footer>
 </body>
 
