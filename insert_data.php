@@ -5,7 +5,19 @@ error_reporting(E_ALL);
 require 'db.php';
 require 'sample-data.php';
 
-$pdo->exec("TRUNCATE TABLE search_items");
+$pdo->exec("
+CREATE TABLE IF NOT EXISTS search_items (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    page_name TEXT,
+    page_fav_icon_path TEXT,
+    page_url TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+)
+");
+
+$pdo->exec("TRUNCATE TABLE search_items RESTART IDENTITY");
 
 $sql = "
 INSERT INTO search_items (title, description, page_name, page_fav_icon_path, page_url, created_at)
